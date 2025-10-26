@@ -1,0 +1,15 @@
+# TACTIK AI 5.3 Premium Edition
+# Python Dependencies
+
+# Core dependencies (only uses Python standard library)
+# No external dependencies required for core algorithm
+
+# Optional: For enhanced functionality
+# numpy>=1.24.0  # For advanced statistical calculations
+# pandas>=2.0.0  # For data analysis of simulation results
+# scipy>=1.10.0  # For advanced confidence interval calculations
+
+# Development dependencies
+# pytest>=7.4.0  # For unit testing
+# black>=23.0.0  # For code formatting
+# mypy>=1.5.0    # For type checking

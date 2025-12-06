@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TACTIK AI 5.3 Premium - Strategic Intelligence Platform</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+        * {
+            font-family: 'Inter', sans-serif;
+        }
+
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .card {
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .message-user {
+            background: #f3f4f6;
+            border-radius: 1rem 1rem 0.2rem 1rem;
+        }
+
+        .message-avatar {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 1rem 1rem 1rem 0.2rem;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Header -->
+    <header class="gradient-bg text-white shadow-lg">
+        <div class="container mx-auto px-6 py-6">
+            <div class="flex items-center justify-between">
+                <div>
+                    <h1 class="text-3xl font-bold">TACTIK AI 5.3 Premium</h1>
+                    <p class="text-sm opacity-90 mt-1">Strategic Intelligence with Scientific Validation</p>
+                </div>
+                <div class="text-right">
+                    <div class="text-sm opacity-90">System Status</div>
+                    <div id="health-status" class="text-lg font-semibold">Loading...</div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Navigation -->
+    <nav class="bg-white shadow">
+        <div class="container mx-auto px-6">
+            <div class="flex space-x-8">
+                <button onclick="showTab('avatars')" class="tab-btn px-4 py-4 text-gray-700 border-b-2 border-transparent hover:border-purple-600 transition" id="tab-avatars">
+                    👤 Avatars
+                </button>
+                <button onclick="showTab('sessions')" class="tab-btn px-4 py-4 text-gray-700 border-b-2 border-transparent hover:border-purple-600 transition" id="tab-sessions">
+                    💬 Sessions
+                </button>
+                <button onclick="showTab('create-avatar')" class="tab-btn px-4 py-4 text-gray-700 border-b-2 border-transparent hover:border-purple-600 transition" id="tab-create-avatar">
+                    ➕ Create Avatar
+                </button>
+                <button onclick="showTab('about')" class="tab-btn px-4 py-4 text-gray-700 border-b-2 border-transparent hover:border-purple-600 transition" id="tab-about">
+                    ℹ️ About
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-6 py-8">
+
+        <!-- Avatars Tab -->
+        <div id="content-avatars" class="tab-content hidden">
+            <div class="mb-6">
+                <h2 class="text-2xl font-bold text-gray-800">Avatar Library</h2>
+                <p class="text-gray-600 mt-1">High-fidelity simulations of strategic stakeholders</p>
+            </div>
+
+            <div id="avatars-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Avatars will be loaded here -->
+            </div>
+
+            <div id="no-avatars" class="text-center py-12 text-gray-500 hidden">
+                <div class="text-6xl mb-4">👤</div>
+                <p class="text-xl">No avatars created yet</p>
+                <button onclick="showTab('create-avatar')" class="mt-4 px-6 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700">
+                    Create Your First Avatar
+                </button>
+            </div>
+        </div>
+
+        <!-- Sessions Tab -->
+        <div id="content-sessions" class="tab-content hidden">
+            <div class="mb-6">
+                <h2 class="text-2xl font-bold text-gray-800">Simulation Sessions</h2>
+                <p class="text-gray-600 mt-1">Strategic conversations and preparation</p>
+            </div>
+
+            <button onclick="showCreateSession()" class="mb-6 px-6 py-3 bg-purple-600 text-white rounded-lg hover:bg-purple-700 font-semibold">
+                + New Session
+            </button>
+
+            <div id="sessions-list" class="space-y-4">
+                <!-- Sessions will be loaded here -->
+            </div>
+        </div>
+
+        <!-- Create Avatar Tab -->
+        <div id="content-create-avatar" class="tab-content hidden">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-2xl font-bold text-gray-800 mb-2">Create New Avatar</h2>
+                <p class="text-gray-600 mb-8">Build a high-fidelity simulation with verified sources</p>
+
+                <div class="bg-white rounded-lg shadow-lg p-8">
+                    <form id="avatar-form" onsubmit="createAvatar(event)">
+                        <!-- Basic Info -->
+                        <div class="mb-8">
+                            <h3 class="text-lg font-semibold mb-4">Basic Information</h3>
+
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Avatar ID</label>
+                                    <input type="text" id="avatar_id" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-600 focus:border-transparent" placeholder="e.g., ceo_edeka">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Avatar Name</label>
+                                    <input type="text" id="avatar_name" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-600 focus:border-transparent" placeholder="e.g., Markus Mosa">
+                                </div>
+                            </div>
+
+                            <div class="mb-4">
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Role / Position</label>
+                                <input type="text" id="role" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-600 focus:border-transparent" placeholder="e.g., Chief Executive Officer">
+                            </div>
+
+                            <div class="mb-4">
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Environment / Context</label>
+                                <textarea id="environment" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-600 focus:border-transparent" rows="3" placeholder="Describe the environment, pressures, and context..."></textarea>
+                            </div>
+
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Language</label>
+                                    <select id="language" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-600 focus:border-transparent">
+                                        <option value="en">English</option>
+                                        <option value="es">Español</option>
+                                        <option value="fr">Français</option>
+                                        <option value="de">Deutsch</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Ground Truth Sources -->
+                        <div class="mb-8">
+                            <h3 class="text-lg font-semibold mb-2">Ground Truth Sources</h3>
+                            <p class="text-sm text-gray-600 mb-4">Add verified sources for avatar DNA (minimum 3 recommended)</p>
+
+                            <div id="sources-container" class="space-y-3 mb-4">
+                                <!-- Sources will be added here -->
+                            </div>
+
+                            <button type="button" onclick="addSource()" class="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300">
+                                + Add Source
+                            </button>
+                        </div>
+
+                        <!-- Simplified DNA Components -->
+                        <div class="mb-8">
+                            <h3 class="text-lg font-semibold mb-2">Avatar DNA (Simplified)</h3>
+                            <p class="text-sm text-gray-600 mb-4">For MVP: Enter key traits and patterns</p>
+
+                            <div class="mb-4">
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Key Influences (comma-separated)</label>
+                                <input type="text" id="influences" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-600 focus:border-transparent" placeholder="Legal compliance, Market competition, Sustainability">
+                            </div>
+
+                            <div class="mb-4">
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Behavioral Patterns (comma-separated)</label>
+                                <input type="text" id="behaviors" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-600 focus:border-transparent" placeholder="Data-driven, Risk-averse, Strategic">
+                            </div>
+
+                            <div class="mb-4">
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Communication Style</label>
+                                <input type="text" id="communication" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-600 focus:border-transparent" placeholder="Professional, Direct, Empathetic">
+                            </div>
+
+                            <div class="mb-4">
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Priorities (comma-separated)</label>
+                                <input type="text" id="priorities" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-600 focus:border-transparent" placeholder="Compliance, Reputation, Profitability">
+                            </div>
+                        </div>
+
+                        <div class="flex space-x-4">
+                            <button type="submit" class="flex-1 px-6 py-3 bg-purple-600 text-white rounded-lg hover:bg-purple-700 font-semibold">
+                                Create Avatar
+                            </button>
+                            <button type="button" onclick="resetAvatarForm()" class="px-6 py-3 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300">
+                                Reset
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- About Tab -->
+        <div id="content-about" class="tab-content hidden">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-2xl font-bold text-gray-800 mb-4">About TACTIK AI 5.3 Premium</h2>
+
+                <div class="bg-white rounded-lg shadow-lg p-8 mb-6">
+                    <h3 class="text-xl font-semibold mb-3">Strategic Intelligence with Scientific Validation</h3>
+                    <p class="text-gray-700 mb-4">
+                        TACTIK AI is not a chatbot. It's a strategic simulation platform that helps you prepare for high-stakes interactions by creating high-fidelity avatars of real stakeholders.
+                    </p>
+
+                    <h4 class="font-semibold mt-6 mb-2">8 Integrated Systems:</h4>
+                    <ul class="space-y-2 text-gray-700">
+                        <li>🧬 <strong>DNA Builder</strong> - Constructs avatar profiles from verified sources</li>
+                        <li>📊 <strong>AVDA Validation</strong> - Scientific confidence scoring (0-100%)</li>
+                        <li>⏸️ <strong>Empathy Pause</strong> - Proactive uncertainty detection</li>
+                        <li>🔄 <strong>Backflow Detection</strong> - Conversation drift correction</li>
+                        <li>👥 <strong>Multi-Avatar Orchestration</strong> - Simultaneous stakeholder simulation</li>
+                        <li>🚪 <strong>Gating with Hysteresis</strong> - Adaptive quality control</li>
+                        <li>📈 <strong>EMA Metrics</strong> - Real-time emotional intelligence tracking</li>
+                        <li>🎯 <strong>TACTIK Advisor</strong> - Strategic reports with transparency cards</li>
+                    </ul>
+
+                    <h4 class="font-semibold mt-6 mb-2">Use Cases:</h4>
+                    <ul class="space-y-2 text-gray-700">
+                        <li>🌍 <strong>Diplomatic Preparation</strong> - Multi-stakeholder negotiations</li>
+                        <li>💼 <strong>Business Strategy</strong> - M&A, partnerships, investor pitches</li>
+                        <li>⚖️ <strong>Legal Preparation</strong> - Cross-examination, witness prep</li>
+                        <li>🎓 <strong>Education</strong> - MBA simulations, Socratic discussions</li>
+                        <li>🏥 <strong>Healthcare</strong> - Difficult conversation preparation</li>
+                    </ul>
+
+                    <div class="mt-6 p-4 bg-purple-50 rounded-lg">
+                        <p class="text-sm text-gray-700">
+                            <strong>Version:</strong> 5.3 Premium Edition<br>
+                            <strong>Author:</strong> Santiago Cañas<br>
+                            <strong>Purpose:</strong> Democratizing elite preparation through AI simulation
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Conversation Modal -->
+        <div id="conversation-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50 flex items-center justify-center">
+            <div class="bg-white rounded-lg shadow-2xl w-full max-w-4xl max-h-[90vh] flex flex-col">
+                <!-- Modal Header -->
+                <div class="px-6 py-4 border-b border-gray-200 flex justify-between items-center">
+                    <div>
+                        <h3 class="text-xl font-bold text-gray-800" id="modal-session-title">Conversation</h3>
+                        <p class="text-sm text-gray-600" id="modal-session-goal"></p>
+                    </div>
+                    <button onclick="closeConversation()" class="text-gray-500 hover:text-gray-700 text-2xl">×</button>
+                </div>
+
+                <!-- Metrics Bar -->
+                <div class="px-6 py-3 bg-gray-50 border-b border-gray-200 grid grid-cols-4 gap-4 text-center text-sm">
+                    <div>
+                        <div class="text-gray-600">Turns</div>
+                        <div class="font-bold" id="metric-turns">0</div>
+                    </div>
+                    <div>
+                        <div class="text-gray-600">EIS</div>
+                        <div class="font-bold" id="metric-eis">-</div>
+                    </div>
+                    <div>
+                        <div class="text-gray-600">HCA</div>
+                        <div class="font-bold" id="metric-hca">-</div>
+                    </div>
+                    <div>
+                        <div class="text-gray-600">TACTIK</div>
+                        <div class="font-bold" id="metric-tactik">-</div>
+                    </div>
+                </div>
+
+                <!-- Messages Area -->
+                <div id="messages-area" class="flex-1 overflow-y-auto px-6 py-4 space-y-4">
+                    <!-- Messages will appear here -->
+                </div>
+
+                <!-- Input Area -->
+                <div class="px-6 py-4 border-t border-gray-200">
+                    <form onsubmit="sendMessage(event)" class="flex space-x-3">
+                        <input type="text" id="user-message" placeholder="Type your message..." class="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-600 focus:border-transparent" required>
+                        <button type="submit" class="px-6 py-3 bg-purple-600 text-white rounded-lg hover:bg-purple-700 font-semibold">
+                            Send
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Actions -->
+                <div class="px-6 py-3 bg-gray-50 border-t border-gray-200 flex justify-end space-x-3">
+                    <button onclick="generateReport()" class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 text-sm">
+                        📊 Generate Report
+                    </button>
+                    <button onclick="exportPDF()" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 text-sm">
+                        📄 Export PDF
+                    </button>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <script src="/static/app.js"></script>
+</body>
+</html>
